@@ -56,13 +56,11 @@ while(i<=40 and j<=40):
         som=som+dist*float(h[i])
         g[j]=g[j]-h[i]
         h[i]=0
-
         continue
     if h[i]>=g[i]  :
         som=som+abs(i-j)*float(g[j])
         h[i]=h[i]-g[j]
         g[i]=0
-
         continue
 
 
