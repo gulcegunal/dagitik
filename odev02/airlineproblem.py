@@ -1,3 +1,4 @@
+__author__ = 'gulce'
 import sys
 from Airline import *
 
@@ -35,7 +36,7 @@ except:
     print ("Could not connect to file airlines.txt")
     sys.exit(0)
 if (scannerToReadAirlines != None):
-              airlinesPartnersNetwork = [] 
+              airlinesPartnersNetwork = []
               airlinesPartnersNetworkpr = []
               for line in scannerToReadAirlines:
                   lineFromFile = line.strip("\n")
@@ -43,7 +44,7 @@ if (scannerToReadAirlines != None):
                   newAirline = Airline(airlineNames)
                   airlinesPartnersNetwork.append(newAirline)
                   airlinesPartnersNetworkpr.append(newAirline.toString())
-              
+
               print(airlinesPartnersNetworkpr)
               start = input("Enter airline miles are on: ")
               goal = input("Enter goal airline: ")
@@ -54,4 +55,4 @@ if (scannerToReadAirlines != None):
               else:
                   print("Cannot convert miles from ", start, " to ", goal, ".");
 
-scannerToReadAirlines.close()    
+scannerToReadAirlines.close()
