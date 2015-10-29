@@ -1,6 +1,6 @@
 import socket
 import threading
-import random
+
 class readThread (threading.Thread):
  def __init__(self, socket, message):
         threading.Thread.__init__(self)
