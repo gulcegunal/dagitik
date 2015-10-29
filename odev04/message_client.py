@@ -20,6 +20,8 @@ class readThread (threading.Thread):
 class writeThread (threading.Thread):
 
 s = socket.socket()
+message = ""
+threads = []
 host ="127.0.0.1"
 port = 12345
 s.connect((host, port))
