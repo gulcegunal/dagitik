@@ -4,23 +4,28 @@ import socket
 
 
 class myThread (threading.Thread):
-	def __init__(self, threadID, clientSocket, clientAddr,message):
-		threading.Thread.__init__(self)
-		self.threadID = threadID
-		self.clientSocket = clientSocket
-		self.clientAddr = clientAddr
-		self.message=message
-	def run(self):
-		print "Starting Thread-" + str(self.threadID)
-		data=self.clientSoket.rev(1024)
-		self.setMessage(data)
-		
-		...
-		...
-		print "Ending Thread-" + str(self.threadID)
-		...
-		...
-		...
+    def __init__(self, threadID, clientSocket, clientAddr, message):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.clientSocket = clientSocket
+        self.clientAddr = clientAddr
+        self.message = message
+    def run(self):
+        print "Starting receive-thread-" + str(self.threadID)
+        while True:
+            data = self.clientSocket.recv(1024)
+            self.setMessage(data)
+            if data == "End":
+                break
+            else:
+                self.clientSocket.send("Got it!")
+        print "Ending receive-thread-" + str(self.threadID)
+    def setMessage(self, data):
+        self.message = data
+    def getMessage(self):
+        return self.message
+
+
 s = socket.socket()
 host = socket.gethostname()
 port = 12345
