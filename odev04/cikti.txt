@@ -1,0 +1,41 @@
+Server Çıktısı:
+/usr/bin/python2.7 /home/gulce/PycharmProjects/odev04/message_server.py
+Waiting for connection
+Got a connection from  ('127.0.0.1', 41490)
+Waiting for connection
+Starting receive-thread-1
+Got a connection from  ('127.0.0.1', 41491)
+Starting receive-thread-2
+Waiting for connection
+Ending receive-thread-2
+Ending receive-thread-1
+
+
+Client çıktısı:
+Client Çıktısı:
+/usr/bin/python2.7 /home/gulce/PycharmProjects/odev04/message.py
+Starting read-thread
+Starting write-thread
+Hello, the time is Thu Oct 29 19:25:54 2015
+Hello, the time is Thu Oct 29 19:26:02 2015
+Hello, the time is Thu Oct 29 19:26:10 2015
+Hello, the time is Thu Oct 29 19:26:11 2015
+Hello, the time is Thu Oct 29 19:26:19 2015
+naber
+Got it!
+hophop
+Got it!
+Hello, the time is Thu Oct 29 19:26:24 2015
+Hello, the time is Thu Oct 29 19:26:27 2015
+Hello, the time is Thu Oct 29 19:26:30 2015
+Hello, the time is Thu Oct 29 19:26:31 2015
+lala
+Got it!
+Hello, the time is Thu Oct 29 19:26:36 2015
+Hello, the time is Thu Oct 29 19:26:37 2015
+End
+Ending read-thread
+Ending write-thread
+Exiting Main Thread
+
+Process finished with exit code 0
