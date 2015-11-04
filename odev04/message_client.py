@@ -26,7 +26,7 @@ class writeThread (threading.Thread):
 
             while True:
                 data = self.socket.recv(1024)
-                if  (data != "End"):
+                if  data:
                     print(data)
 
 s = socket.socket()
