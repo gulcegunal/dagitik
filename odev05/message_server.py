@@ -175,4 +175,62 @@ class ReadThread (threading.Thread):
 
         print("Exiting " + self.name)
         self.lQueue.put("Exiting " + self.name + "\n")
+class LoggerThread (threading.Thread):
+    def __init__(self, name, logQueue, logFileName):
+        threading.Thread.__init__(self)
+        self.name = name
+        self.lQueue = logQueue
+        self.fid = open(logFileName, "a")
 
+    def log(self, message):
+        t = time.ctime()
+        self.fid.write(t + " " +message)
+        self.fid.flush()
+
+    def run(self):
+        self.log("Starting " + self.name + "\n")
+
+        while(True):
+            if self.lQueue.qsize() > 0:
+                to_be_logged = self.lQueue.get()
+                self.log(to_be_logged)
+
+        self.log("Exiting" + self.name + "\n")
+        self.fid.close()
+
+s = socket.socket()
+host = socket.gethostname()
+port = 12345
+s.bind((host, port))
+s.listen(5)
+
+threadCounter = 0
+fihrist = dict()
+lQueue = Queue.Queue()
+
+logger = LoggerThread("LoggerThread", lQueue, "logger.txt")
+logger.start()
+
+while True:
+    sMessage = "Waiting for connection"
+    print(sMessage)
+    lQueue.put(sMessage + "\n")
+
+    c, addr = s.accept()
+
+    sMessage = "Got a connection from " + str(addr)
+    print(sMessage)
+    lQueue.put(sMessage  + "\n")
+
+    threadCounter +=1
+    rThreadName = "ReadThread-" + str(threadCounter)
+    wThreadName = "WriteThread-" + str(threadCounter)
+
+    threadQueue = queue.Queue()
+    queueLock = threading.Lock()
+
+    rThread = ReadThread(rThreadName, c, addr, lQueue)
+    rThread.start()
+
+    wThread = WriteThread(wThreadName, c, addr, threadQueue, lQueue)
+    wThread.start()
