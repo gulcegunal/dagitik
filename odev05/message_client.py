@@ -88,3 +88,24 @@ class ReadThread (threading.Thread):
 				self.csoc.close()
 				break
 		print("Exiting " + self.name)
+class WriteThread (threading.Thread):
+
+	def __init__(self, name, csoc, threadQueue):
+		threading.Thread.__init__(self)
+		self.name = name
+		self.csoc = csoc
+		self.threadQueue = threadQueue
+
+	def run(self):
+		print("Starting " + self.name)
+		while True: 
+			if self.threadQueue.qsize() > 0:
+				queue_message = str(self.threadQueue.get())
+				try:
+					self.csoc.send(queue_message.encode())
+				except socket.error:
+					self.csoc.close()
+					break
+			if socketClosed == 1:
+				break
+		print("Exiting " + self.name)
