@@ -71,6 +71,7 @@ class WorkerThread (threading.Thread):
                 # else:
                 #     newMessage[index0] = 0
         return (header, newMessage)
+    
     def gaussianFilter(self, header, patch):
         
         newMessage = [0] * self.patchsize * self.patchsize
@@ -115,6 +116,7 @@ class WorkerThread (threading.Thread):
             else:
                 newMessage[i] = 255
         return (header, newMessage
+     
      def prewittFilter(self, header, patch):
         newMessage = [0] * self.patchsize * self.patchsize
         for i in range(1, self.patchsize-1):
@@ -157,6 +159,12 @@ class WorkerThread (threading.Thread):
                                                   128)
                 if str(message[0][0]) == "GrayScale":
                     outMessage = self.convertGray(message[0][1], message[1])
+                if str(message[0][0]) == "Binarize":
+                    outMessage = self.binarizeFilter(message[0][1], message[1])
+                if str(message[0][0]) == "GaussianFilter":
+                    outMessage = self.gaussianFilter(message[0][1], message[1])
+                if str(message[0][0]) == "PrewittFilter":
+                    outMessage = self.prewittFilter(message[0][1], message[1])
                 # self.pLock.acquire()
                 self.outQueue.put(outMessage)
                 # self.pLock.release()
