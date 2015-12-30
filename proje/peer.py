@@ -18,7 +18,7 @@ class PeerClient (threading.Thread):
 		threading.Thread.__init__(self)
 		self.app = app
 		self.csoc= socket.socket()
-		##socket
+		
 		self.connection_list = connection_list
 		self.host=host
 		self.port=port
@@ -40,7 +40,7 @@ class PeerClient (threading.Thread):
 		incoming_data = incoming_data.strip()
 		
 		if incoming_data[0:5] =="SALUT":	
-			##Peer-Nego SALUT 
+		
 			if incoming_data[6]=="N":
 				
 				self.csoc.send("REGME "+str(self.my_host)+":"+ str(self.my_port))
@@ -99,7 +99,7 @@ class PeerClient (threading.Thread):
 					self.app.cprint("Connection Failed to " + str(self.host) +" "+ str(self.port))
 					self.threadQueue.put("1")			
 					return 
-			##Peer-Peer 
+			
 		
 			elif incoming_data[6]=="P":
 
@@ -248,7 +248,7 @@ s = socket.socket()
 host = socket.gethostname()
 
 port = 12340
-neg_port=12349
+
 
 
 s.bind((host, port))
