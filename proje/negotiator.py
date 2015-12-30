@@ -8,7 +8,7 @@ import Queue
 
 class NegotiatorServer (threading.Thread):
 	def __init__(self, cSocket, address,connection_list):
-		threading.Thread.__init__(self)f
+		threading.Thread.__init__(self)
 		self.csoc = cSocket
 		self.address = address
 		self.connection_list = connection_list
