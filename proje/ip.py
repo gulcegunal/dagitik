@@ -71,7 +71,75 @@ class WorkerThread (threading.Thread):
                 # else:
                 #     newMessage[index0] = 0
         return (header, newMessage)
+    def gaussianFilter(self, header, patch):
+        
+        newMessage = [0] * self.patchsize * self.patchsize
+        for i in range(1, self.patchsize-1):
+            
+            for j in range(1, self.patchsize-1):
+                
+                index0 = j * self.patchsize + i 
+                index1 = (j+1) * self.patchsize + i 
+                index1r = (j-1) * self.patchsize + i 
+                temp0 = \
+                    + 0.0625* patch[index1r - 1] \
+                    + 0.0125* patch[index1r] \
+                    + 0.0625* patch[index1r + 1] \
+                    + 0.125* patch[index0 - 1] \
+                    + 0.25* patch[index0] \
+                    + 0.125* patch[index0 + 1] \
+                    + 0.0625* patch[index1 - 1] \
+                    + 0.125* patch[index1] \
+                    + 0.0625* patch[index1 + 1]
 
+                temp1 = \
+                    + 0.0625* patch[index1r - 1] \
+                    + 0.125* patch[index1r]\
+                    + 0.0625* patch[index1r + 1] \
+                    + 0.125* patch[index0 - 1] \
+                    + 0.25* patch[index0]\
+                    + 0.125* patch[index0 + 1] \
+                    + 0.0625* patch[index1 - 1] \
+                    + 0.125* patch[index1]\
+                    + 0.0625* patch[index1 + 1]
+
+                newMessage[index0] = int(math.sqrt(temp0**2 + temp1**2))
+                
+        return (header, newMessage)
+   
+     def binarizeFilter(self, header, patch):
+        newMessage = [0] * self.patchsize * self.patchsize
+        for i in range(0, self.patchsize * self.patchsize):
+            if patch[i] < 127 :
+                newMessage[i] = 0
+            else:
+                newMessage[i] = 255
+        return (header, newMessage
+     def prewittFilter(self, header, patch):
+        newMessage = [0] * self.patchsize * self.patchsize
+        for i in range(1, self.patchsize-1):
+            for j in range(1, self.patchsize-1):
+                index0 = j * self.patchsize + i 
+                index1 = (j+1) * self.patchsize + i 
+                index1r = (j-1) * self.patchsize + i 
+                temp0 = \
+                    + 1* patch[index1r - 1] \
+                    - 1* patch[index1r + 1] \
+                    + 1* patch[index0 - 1] \
+                    - 1* patch[index0 + 1] \
+                    + 1* patch[index1 - 1] \
+                    - 1* patch[index1 + 1]
+
+                temp1 = \
+                    + 1* patch[index1r - 1] \
+                    + 1* patch[index1r]\
+                    + 1* patch[index1r + 1] \
+                    - 1* patch[index1 - 1] \
+                    - 1* patch[index1]\
+                    - 1* patch[index1 + 1]
+
+                newMessage[index0] = int(math.sqrt(temp0**2 + temp1**2))
+        return (header, newMessage)
 
     def run(self):
         print self.name + ": Starting."
@@ -114,8 +182,10 @@ class imGui(QMainWindow):
 
         # fill combobox
         self.ui.boxFunction.addItem("GrayScale")
+        self.ui.boxFunction.addItem("Binarize")
+        self.ui.boxFunction.addItem("GaussianFilter")
         self.ui.boxFunction.addItem("SobelFilter")
-
+        self.ui.boxFunction.addItem("PrewittFilter")
         # connect buttons
         self.ui.buttonLoadImage.clicked.connect(self.loadImagePressed)
         self.ui.buttonResetImage.clicked.connect(self.resetImagePressed)
